@@ -1,42 +1,40 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:survival_of_the_budget/models/TransactionModel.dart';
 
-class TransactionCard extends StatelessWidget {
-  final String id;
-  final String title;
-  final double expense;
-  final String notes;
-  final DateTime dateTime;
+class TransactionList extends StatelessWidget {
+  final List<TransactionModel> transactions;
 
-  TransactionCard(
-      {@required this.id,
-      @required this.title,
-      @required this.expense,
-      @required this.notes,
-      @required this.dateTime});
+  TransactionList(this.transactions);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 5, left: 10, right: 10),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  _ExpenseAmount(expense),
-                  SizedBox(width: 15),
-                  _TitleAndNotes(title, notes),
-                ],
-              ),
-              _DateTime(dateTime)
-            ],
-          ),
-        ),
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          ...(transactions.map((trans) => Container(
+                margin: EdgeInsets.only(top: 5, left: 10, right: 10),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            _ExpenseAmount(trans.expense),
+                            SizedBox(width: 15),
+                            _TitleAndNotes(trans.title, trans.notes),
+                          ],
+                        ),
+                        _DateTime(trans.dateTime)
+                      ],
+                    ),
+                  ),
+                ),
+              )))
+        ],
       ),
     );
   }
